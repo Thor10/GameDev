@@ -1,0 +1,110 @@
+#include "./Includes.h"
+
+/*
+ * Note:
+ * Globals are being used as Emscripten really wants functional programming so yeah I don't really 
+ * know another way
+ */
+
+/* Declaring the global variables I need */
+#define SCREEN_W 640 
+#define SCREEN_H 512
+
+#define TILE_SIZE 32
+
+dynamic_entity_t player;
+image2d player_img;
+
+int g_player_moving_right;
+int g_player_moving_left;
+int g_player_moving_down;
+int g_player_moving_up;
+
+dynamic_entity_t tile;
+image2d tile_img;
+
+int y;
+int x;
+
+/* Initializing game, mainly variables needed and the little engine behind the scenes */
+int init_game() { 
+    le_init();
+    le_create_window("G0LD", SCREEN_W, SCREEN_H, &le_g_flags);
+    le_create_renderer();
+
+    init_dynamic_entity(&player, 0, 0, TILE_SIZE, TILE_SIZE, 3, -9);
+    init_image2d(&player_img, "Resources/player.png", TILE_SIZE, TILE_SIZE, 0, 0);
+
+    init_dynamic_entity(&tile, 0, 0, TILE_SIZE, TILE_SIZE, 0, 0);
+    init_image2d(&tile_img, "Resources/tile.png", TILE_SIZE, TILE_SIZE, 0, 0);
+
+    y = 0;
+    x = 0;
+
+    return 1;
+}
+
+/* Game loop... */
+void game_loop() {
+    le_get_events();
+
+    switch (le_g_event.type) {
+        case SDL_QUIT:
+            le_g_game_running = 0;
+            break;
+        
+        default:
+            break; 
+    } 
+
+    /* Update */
+    
+
+    /* Render */
+    le_clear_screen(0, 0, 10, 255);
+    le_start_render();
+	
+	/* Real Rendering here */
+	draw_dynamic_entity_img(&player, &player_img);
+
+	y = 0;
+	x = 0;
+	for (y = 0; y < (SCREEN_H / TILE_SIZE); y++) {
+	    for (x = 0; x < (SCREEN_W / TILE_SIZE); x++) {
+            tile.pos.x = x * TILE_SIZE;
+            tile.pos.y = y * TILE_SIZE;
+
+            if ((y == 0 || y == (SCREEN_H / TILE_SIZE) - 1) 
+            ||  (x == 0 || x == (SCREEN_W / TILE_SIZE) - 1)
+               )
+                draw_dynamic_entity_img(&tile, &tile_img);
+        }
+	}
+
+
+    le_end_render();
+}
+
+/* Main function.. */
+int main(SDL_MAIN_ARGS) {
+    if (!init_game()) {
+        le_log_error("Error Initializing Game!", NULL);
+    }
+
+    le_log_info("Successfully Initialized Game", NULL);
+
+    # ifdef __EMSCRIPTEN__
+        emscripten_set_main_loop(game_loop, 0, 1);
+    # else 
+        while (le_g_game_running) {
+            game_loop();
+            le_delay(16);
+        }
+    # endif
+
+    le_uninit();
+
+    return 0;
+}
+
+

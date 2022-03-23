@@ -1,0 +1,184 @@
+use resources.md (hidden) 
+
+fix keydown and keyup
+
+refactor
+fix fps
+code cleanup
+dynamic array
+add SDL_Surface to le_img_t:
+    SDL_ConvertSurface(surface, window_surf -> format, 0) 
+sdl_events -> https://wiki.libsdl.org/SDL_Event ...:
+    mouse events
+    mouse setting
+    window events
+    joystick & controller events
+    quit event
+    keyboard event
+    text editing event
+    text input event
+    audio event
+    user defined events
+    touch events
+    gesture events
+    drop event
+    abstraction of input like godot:
+        if keydown(scancode)
+
+centered rotation (pygame-ish, may differ): 
+    rotate at angle 
+    make new rect, get rotated image rect and then make the center of the 
+        rotated image of the topleft of the original image's center
+            and then draw at this 
+    
+    ```
+    def centered_rotation(surf, image, topleft, angle):
+        rotated_image = pygame.transform.rotate(image, angle)
+        new_rect = rotated_image.get_rect(center = image.get_rect(topleft = topleft).center)
+
+        surf.blit(rotated_image, new_rect.topleft)
+    ```
+
+different game state functions:
+    in_menu = 1; do_this(); 
+    hash table implementation??
+    "menu" : menu();
+    "gameplay" : gameplay();
+    how would one pass args, though everything is global
+
+stacks & queues for layering:
+    draw_img(); appends to appropriate structure; loop through & draw
+    or maybe use distance from camera
+
+seralization:
+    save structs and write the state of struct into appropriate file
+    when game is initialized, game state is saved
+
+resource manager and entity manager:
+    load_texture stores the texture into some hash table for textures 
+    idea of this managers is that you never actually access these entities, 
+        you just get them by their ids and update them
+
+matrices and matrice operations, matrice based transformation:
+    matrice adding:
+        m1[i] + m2[i] = m3[i]
+
+    matrice scalar multiply/divide:
+        x * m1 = m2
+        x / m1 = m2
+
+    matrice vector multiply/divide:
+        v * m1 = m2
+        v / m1 = m2 (??)
+
+    matrice matrix multiply/divide:
+        look in books
+
+    look in books
+
+chunking system:
+    divide the world up into smaller pieces
+    maybe just group the whole tile into one surface or texture
+
+broad phased collision detection:
+    group tiles on same y, with one rect
+
+spatial hash grid 
+draw bg function: 
+    draw bg image 2 times, one at 0, 0 and the other one at 0 + s_w, 0 
+
+better file input/output:
+    does file exist
+    json 
+
+physics:
+    cloth
+    soft bodies
+    rigid bodies
+    collider
+    obj
+    https://docs.godotengine.org/en/stable/tutorials/physics/
+
+maths:
+    bezier curves
+    noise
+    interpolation
+
+text from image:
+    watch foof's video
+
+tile set loader:
+    
+
+spritesheet loader:
+    loads tile sets
+    loads images 
+    returns
+
+masks:
+    outline    
+
+texture atlasing
+tilemap
+post processing:
+    ambient occlusion
+    anti aliasing
+    anti exposure
+    bloom
+    rgba channel mix
+    chromatic abberation
+    color adjustments
+    color curves
+    fog
+    depth of field
+    grain
+    lens distortion
+    motion blur
+    lift, gamma, gain
+    panini projection
+    vignette
+    lighting
+
+built in sound maker?
+built in pixel art maker?
+network
+threads:
+    multi threading operations
+
+state machines:
+    state of each entity
+    https://www.codeproject.com/Articles/1275479/State-Machine-Design-in-C
+
+
+function declaration order
+use unions
+scroll
+game struct
+color swapping
+color
+random numbers
+set icon
+shape specific collision detection
+comparable CPU usage and GPU usage 
+store generated values in a cache
+individual components like (component based architecture):
+    rigid body
+    area 2d
+    kinematic body 2d
+    box collider
+    ray casting
+    rag doll
+    kinematic character 2d
+    soft body
+
+
+entity ids
+opengl
+shaders
+alpha blending
+level editor
+add manager that stores all loaded things so that 
+    everything is destroyed on uninitialization
+add uninit
+
+dynamic lists

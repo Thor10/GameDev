@@ -1,0 +1,44 @@
+include ./config.ninja
+
+CFLAGS = ${MODE} ${VERSION} ${INCLUDES} -D_GLFW_${PLATFORM}=1
+
+rule CC 
+    depfile = ${out}.dep
+    command = ${CC} ${CFLAGS} -MD -MF ${out}.dep -o ${out} -c ${in} 
+    description = Compiling ${out}
+
+rule LINK
+    command = ${CC} -o ${out} ${in} ${LIBS}   
+    description = Linking ${out}
+
+rule AR
+    command = ${LINKER} ${out} ${in}
+    description = Linking As Well ${out}
+
+# Building
+## Dependencies
+### Platform dependent
+include ./tools/${PLATFORM}.ninja
+
+### Third Party Assets 
+build ${OBJ_PATH}/glad.obj:   CC ${GLAD_SRC}/gl.c
+build ${OBJ_PATH}/stbi.obj:   CC ${STBI_SRC}/stb_image.c
+build ${OUT_PATH}/external.a: AR ${OBJ_PATH}/glad.obj $
+                                 ${OBJ_PATH}/stbi.obj 
+
+## App
+
+## App
+build ${OBJ_PATH}/main.obj:   CC ${SRC}/main.c
+build ${OUT_PATH}/app.a:      AR ${OBJ_PATH}/main.obj
+build ${OUT_PATH}/app.${EXT}: LINK ${OUT_PATH}/app.a         $
+                                   ${OUT_PATH}/${PLATFORM}.a $
+                                   ${OUT_PATH}/external.a 
+ LIBS = ${SYSLIBS} 
+
+
+# End of build targets.
+
+build app: phony ${OUT_PATH}/app.${EXT}
+
+default app

@@ -1,0 +1,46 @@
+include ./config.ninja
+include ./tools/flags.ninja
+include ./tools/${PLATFORM}.ninja
+
+
+#### external libs 
+build ${OBJ_PATH}/file.obj:  CC ${ESTD_SRC}/file.c
+build ${OBJ_PATH}/ht.obj:    CC ${ESTD_SRC}/ht.c
+build ${OBJ_PATH}/list.obj:  CC ${ESTD_SRC}/list.c
+build ${OBJ_PATH}/log.obj:   CC ${ESTD_SRC}/log.c
+build ${OBJ_PATH}/maths.obj: CC ${ESTD_SRC}/maths.c
+build ${OBJ_PATH}/prof.obj:  CC ${ESTD_SRC}/prof.c
+build ${OBJ_PATH}/str.obj:   CC ${ESTD_SRC}/str.c
+build ${OBJ_PATH}/extd_cstd.a: AR ${OBJ_PATH}/file.obj    $
+                                  ${OBJ_PATH}/ht.obj      $
+                                  ${OBJ_PATH}/list.obj    $
+                                  ${OBJ_PATH}/log.obj     $
+                                  ${OBJ_PATH}/maths.obj   $
+                                  ${OBJ_PATH}/prof.obj    $
+                                  ${OBJ_PATH}/str.obj
+
+###### main game + engine
+build ${OBJ_PATH}/main.obj:   CC src/main.c
+build ${OBJ_PATH}/game.obj:   CC src/game/game.c 
+build ${OBJ_PATH}/engine.obj: CC src/game/engine/engine.c 
+build ${OBJ_PATH}/rate.obj:   CC src/game/engine/sdl_gfx/SDL2_framerate.c
+build ${OBJ_PATH}/prim.obj:   CC src/game/engine/sdl_gfx/SDL2_gfxPrimitives.c
+build ${OBJ_PATH}/filter.obj: CC src/game/engine/sdl_gfx/SDL2_imageFilter.c
+build ${OBJ_PATH}/roto.obj:   CC src/game/engine/sdl_gfx/SDL2_rotozoom.c
+build ${OBJ_PATH}/game.a: AR ${OBJ_PATH}/main.obj $
+                             ${OBJ_PATH}/game.obj $
+                             ${OBJ_PATH}/engine.obj $
+                             ${OBJ_PATH}/rate.obj   $
+                             ${OBJ_PATH}/prim.obj   $
+                             ${OBJ_PATH}/filter.obj $
+                             ${OBJ_PATH}/roto.obj   $
+
+# link all .as
+build ${OUT}: LINK ${OBJ_PATH}/game.a $
+                   ${OBJ_PATH}/extd_cstd.a
+
+build app: phony ${OUT}
+
+default app
+
+

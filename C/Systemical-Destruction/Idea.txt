@@ -1,0 +1,6 @@
+This is a game made for the first ever n8dev game jam, the idea is to make a game where you have to destroy 
+the system in which your enemies keep on coming to you and you and you have to destroy them using a power given
+to you by making them drive into each other
+
+Or sneak past the enemy whilst being undetected so you have to break the system of detection using some ability
+

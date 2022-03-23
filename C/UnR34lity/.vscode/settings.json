@@ -1,0 +1,17 @@
+{
+    "files.associations": {
+        "engine.h": "c",
+        "lib.h": "c",
+        "list.h": "c",
+        "prof.h": "c",
+        "stdlib.h": "c",
+        "types.h": "c",
+        "str.h": "c",
+        "maths.h": "c",
+        "log.h": "c",
+        "sdl_image.h": "c",
+        "game.h": "c",
+        "locale": "c",
+        "string": "c"
+    }
+}
