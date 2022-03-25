@@ -21,10 +21,11 @@ typedef struct {
     f32 lifetime;
     gsdl_phys_obj_t obj;
 } bullet_t;
+    implement bullets
 */
+
 /*
-    implement bullets:
-        - 
+
 */
 
 typedef struct game_state {
@@ -116,10 +117,6 @@ game_state_t * game_init(gsdl_props_t * props) {
         //SDL_SetWindowMaximumSize(props -> win, 2560, 1440);
     }
 
-    assert(state != NULL);
-    assert(state -> texture_storage.data != NULL);
-    assert(state -> ptr_storage.data != NULL);
-
     { // Transition
         gsdl_create_circle(&state -> transition_circle, W_HALF, H_HALF - 20, 0, 100, 30, 34, 255, 1);
         state -> transition = 0;
@@ -130,8 +127,6 @@ game_state_t * game_init(gsdl_props_t * props) {
         gsdl_create_phys_obj(&state -> render_texture_obj, mk_v2(0, 0), mk_v2(0, 0), WIDTH, HEIGHT);
         gsdl_create_phys_obj(&state -> mouse, mk_v2(0, 0), mk_v2(0, 0), 16, 16); 
     }
-
-    assert(state -> render_texture.tex != NULL);
 
     { // Create menu UI
 
@@ -144,9 +139,6 @@ game_state_t * game_init(gsdl_props_t * props) {
         gsdl_create_ui_label(&state -> frame_time_label, 60, 10, "Calculating AVG Frame Time...", "./res/m5x7.ttf", cWHITE, 30, props -> renderer, &state -> texture_storage, &state -> ptr_storage);
         gsdl_create_ui_label(&state -> mem_used_label, 60, 30, "Calculating Memory Used (mb)...", "./res/m5x7.ttf", cWHITE, 30, props -> renderer, &state -> texture_storage, &state -> ptr_storage);
     }
-
-    assert(state -> game_name.label_tex != NULL);
-    assert(state -> press_to_play.label_tex != NULL);
 
     { // Create circle / Sharingan thingy 
         gsdl_create_circle(&state -> sharingan, W_HALF, H_HALF - 20, 148, 100, 30, 34, 255, 1);
@@ -707,6 +699,8 @@ void game_cleanup(gsdl_props_t * props, game_state_t * state) {
         }
     } */ 
     
+    gsdl_serialize_img(&state -> render_texture, "render.png", props -> renderer);
+
     free(state -> integer_str);
     free(state -> final_dbg_str);
     // add to pointer stg

@@ -37,6 +37,7 @@
         u32 fps;
         u16 ms_delay; 
         u32 last_step;
+        u32 frame_count;
         i32 dt;
         i32 avg_dt[200];
         i32 mb_used;
@@ -44,6 +45,7 @@
         u08 running;
         u08 vsync;
         SDL_Event event;
+        u32 base_ticks;
         const u08 * keys_pressed;
     } gsdl_props_t;
 

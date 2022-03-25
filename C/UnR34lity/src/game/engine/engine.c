@@ -8,8 +8,8 @@ void gsdl_init(const gsdl_init_info_t init, gsdl_props_t * props) {
             printf("Failed to initialize SDL2: %s\n", SDL_GetError());
         }       
     }
-    u32 window_flags = 0;
     { // Window 
+        u32 window_flags = 0;
         if (init.resizable) {
             #ifdef __APPLE__
                 window_flags = window_flags | SDL_WINDOW_RESIZABLE;
@@ -23,8 +23,8 @@ void gsdl_init(const gsdl_init_info_t init, gsdl_props_t * props) {
             printf("Error making SDL2 window: %s\n", SDL_GetError());
         }
     }
-    u32 renderer_flags = 0;
     { // Renderer
+        u32 renderer_flags = 0;
         if (init.renderer_accel) {
             renderer_flags = renderer_flags | SDL_RENDERER_ACCELERATED;
         }
@@ -402,7 +402,7 @@ void gsdl_draw_rect(const SDL_Rect * rect, u08 r, u08 g, u08 b, u08 a, SDL_Rende
 }
 
 void gsdl_draw_ui_label(const gsdl_ui_label_t * label, SDL_Renderer * renderer) {
-    i32 x = SDL_RenderCopy(renderer, label -> label_tex, NULL, &label -> pos);
+    SDL_RenderCopy(renderer, label -> label_tex, NULL, &label -> pos);
 }
 
 void _gsdl_draw_circle(i32 cx, i32 cy, u32 rad, u08 r, u08 g, u08 b, u08 a, u08 fill, SDL_Renderer * renderer) {
@@ -625,7 +625,7 @@ void * gsdl_deserialize_bin(u64 size, const char * path) {
 
 void gsdl_serialize_img(gsdl_img_t * img, char * file_name, SDL_Renderer * renderer) {
     SDL_PixelFormatEnum format;
-    int access;
+    i32 access;
 
     /* Get information about texture we want to save */
     u08 texture_query = SDL_QueryTexture(img -> tex, &format, &access, NULL, NULL) + 1;
@@ -669,6 +669,7 @@ void gsdl_serialize_img(gsdl_img_t * img, char * file_name, SDL_Renderer * rende
     if (!saved) {
         log_warn("Failed to save %s", file_name);
     } 
+
     img -> serialized = 1;
 }
 

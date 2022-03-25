@@ -8,7 +8,7 @@
     #define W_HALF       WIDTH/2 
     #define H_HALF       HEIGHT/2
     #define RENDERER_ACC 1
-    #define FPS          60
+    #define FPS          60 
     #define VSYNC        1
     #define RESIZABLE    1 
 
