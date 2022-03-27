@@ -1,3 +1,3 @@
 ninja
 cd build/exe
-tsukuyomi.exe
+./tsukuyomi.exe
