@@ -1,0 +1,9 @@
+#!/bin/bash
+
+path=`dirname "$BASH_SOURCE"`
+
+export DYLD_LIBRARY_PATH=$path/lib
+
+chmod +x $path/_game.out
+exec $path/_game.out & disown -h
+exit 0

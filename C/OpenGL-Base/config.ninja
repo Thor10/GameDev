@@ -4,7 +4,7 @@ include ./tools/flags.ninja
 #   GCC
 #   CLANG
 #   TCC [not sure but you can try]
-CC = clang
+CC = gcc
 
 # Choose either:
 # WIN32  -> Windows 

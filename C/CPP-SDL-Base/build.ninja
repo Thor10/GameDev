@@ -1,0 +1,31 @@
+include ./config.ninja
+include ./tools/flags.ninja
+include ./tools/${PLATFORM}.ninja
+
+
+#### external libs 
+build ${OBJ_PATH}/log.obj:   CC ${ESTD_SRC}/log.c
+build ${OBJ_PATH}/maths.obj: CC ${ESTD_SRC}/maths.c
+build ${OBJ_PATH}/prof.obj:  CC ${ESTD_SRC}/prof.c
+build ${OBJ_PATH}/str.obj:   CC ${ESTD_SRC}/str.c
+build ${OBJ_PATH}/extd_cstd.a: AR ${OBJ_PATH}/log.obj     $
+                                  ${OBJ_PATH}/maths.obj   $
+                                  ${OBJ_PATH}/prof.obj    $
+                                  ${OBJ_PATH}/str.obj
+
+###### main game + engine
+build ${OBJ_PATH}/main.obj:   CC src/main.cpp
+build ${OBJ_PATH}/engine.obj:   CC src/engine.cpp
+build ${OBJ_PATH}/game.a: AR ${OBJ_PATH}/main.obj $
+                             ${OBJ_PATH}/engine.obj
+
+
+# link all .as
+build ${OUT}: LINK ${OBJ_PATH}/game.a $
+                   ${OBJ_PATH}/extd_cstd.a
+
+build app: phony ${OUT}
+
+default app
+
+

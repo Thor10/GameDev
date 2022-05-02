@@ -1,0 +1,15 @@
+rule CC
+    command = g++ ${in} -c -o ${out} -I./build/exe/include ${INCLUDES} ${flags}
+    description = Compiling .obj 
+
+rule LINK
+    command = g++ -o ${out} ${in} ${flags} -I./build/exe/include ${INCLUDES} -lmingw32 -lpsapi -Lbuild/exe/lib ${libs}
+    description = Compiling into binary ${out}
+# -mwindows for no console window
+
+rule AR
+    command = ar -rc ${out} ${in}
+    description = Linking .a
+
+OUT = build/exe/_game.exe
+OBJ_PATH = build/exe/obj/
